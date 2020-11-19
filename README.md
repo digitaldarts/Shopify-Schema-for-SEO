@@ -1,0 +1,1 @@
+# Shopify-Schema-for-SEO
