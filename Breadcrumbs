@@ -1,0 +1,52 @@
+{%- if template contains 'collection' -%}
+      <div id="breadcrumbs">
+        <div itemscope itemtype="http://schema.org/BreadcrumbList">
+          <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="{{ shop.url }}" title="{{ shop.name | escape }}" itemprop="item"><span itemprop="name">{{ 'collections.breadcrumbs.home' | t }}</span></a><meta itemprop="position" content="1" /></span>
+          <span class="breadcrumb-sep" aria-hidden="true">&rsaquo;</span>
+          <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="{{ shop.url }}/collections" title="{{ 'collections.breadcrumbs.collections' | t }}" itemprop="item"><span itemprop="name">{{ 'collections.breadcrumbs.collections' | t }}</span></a><meta itemprop="position" content="2" /></span>
+          {% if collection.handle %}
+          <span class="breadcrumb-sep" aria-hidden="true">&rsaquo;</span>
+          <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+              <a href="{{ shop.url }}{{ collection.url }}" title="{% if collection.handle == 'all' %}{{ 'collections.breadcrumbs.all_collection' | t }}{% else %}{{ collection.title }}{% endif %}" itemprop="item">
+                <span itemprop="name">{% if collection.handle == 'all' %}{{ 'collections.breadcrumbs.all_collection' | t }}{% else %}{{ collection.title }}{% endif %}</span>
+                <meta itemprop="position" content="3" />
+              </a>
+          {%- endif -%}    
+        </div>
+      </div>
+{%- elsif template contains 'product' -%}
+        <div id="breadcrumbs">
+          <div itemscope itemtype="http://schema.org/BreadcrumbList">
+            <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+              <a href="{{ shop.url }}" title="{{ shop.name | escape }}" itemprop="item">
+                <span itemprop="name">{{'collections.breadcrumbs.home' | t}}</span>
+              </a>
+              <meta itemprop="position" content="1" />
+            </span>
+            
+            <span class="breadcrumb-sep" aria-hidden="true">&rsaquo;</span>
+            <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+              {% if collection %}
+                <a href="{{ shop.url }}{{ collection.url }}" title="{{ collection.title | escape }}" itemprop="item">
+                  <span itemprop="name">{{ collection.title }}</span>
+                  <meta itemprop="position" content="2" />
+                  </a>
+              {%- else -%}
+                {% assign first_collection = product.collections[0] %}
+                <a href="{{ shop.url }}{{ first_collection.url }}" title="{{ first_collection.title }}" itemprop="item">
+                  <span itemprop="name">{{ first_collection.title }}</span>
+                  <meta itemprop="position" content="2" />
+                </a>
+              {%- endif -%}
+            </span>
+                                                                                          
+            <span class="breadcrumb-sep" aria-hidden="true">&rsaquo;</span>
+            <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+              <a href="{{ shop.url }}{{ product.url }}" itemprop="item">
+                <span itemprop="name">{{ product.title }}</span>
+                <meta itemprop="position" content="3" />
+              </a>
+            </span>
+          </div>
+        </div>
+{%- endif -%}
